@@ -1,0 +1,6 @@
+{
+  "name": "LS Services",
+  "description": "Mobile job app for LS Services in Uganda. Browse listings, register, get notifications, and apply with one tap.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
