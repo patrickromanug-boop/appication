@@ -72,8 +72,6 @@ fun ProfileScreen(
     val activeSubScreen = viewModel.profileSubScreen
     var hasSkippedProfileFlow by remember { mutableStateOf(false) }
 
-    val isAdmin = isLoggedIn && userProfile != null && userProfile?.role?.equals("admin", ignoreCase = true) == true
-
     // Dialog overlays
     var showChangePasswordDialog by remember { mutableStateOf(false) }
     var showDeleteAccountDialog by remember { mutableStateOf(false) }
@@ -174,18 +172,6 @@ fun ProfileScreen(
             LegalAndAboutScreen(
                 onBack = { viewModel.profileSubScreen = "main" }
             )
-        }
-        "admin_portal" -> {
-            if (isAdmin) {
-                AdminPortalScreen(
-                    viewModel = viewModel,
-                    onBack = { viewModel.profileSubScreen = "main" }
-                )
-            } else {
-                LaunchedEffect(Unit) {
-                    viewModel.profileSubScreen = "main"
-                }
-            }
         }
         else -> {
             // Main Settings SubScreen
@@ -395,52 +381,6 @@ fun ProfileScreen(
                         }
 
                         Spacer(modifier = Modifier.height(16.dp))
-
-                        if (isAdmin) {
-                            // Admin Management Console Launcher Card
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { viewModel.profileSubScreen = "admin_portal" }
-                                    .testTag("admin_portal_launcher_card"),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = CardDefaults.cardColors(containerColor = PrimaryBlue),
-                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(44.dp)
-                                            .background(Color.White.copy(alpha = 0.2f), CircleShape),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(Icons.Default.AdminPanelSettings, "Admin Console", tint = Color.White)
-                                    }
-                                    Spacer(modifier = Modifier.width(14.dp))
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Text("Admin Management Console", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Color.White)
-                                            Spacer(modifier = Modifier.width(6.dp))
-                                            Box(
-                                                modifier = Modifier
-                                                    .background(AccentOrange, RoundedCornerShape(4.dp))
-                                                    .padding(horizontal = 4.dp, vertical = 2.dp)
-                                            ) {
-                                                Text("ADMIN", fontSize = 8.sp, fontWeight = FontWeight.Black, color = Color.White)
-                                            }
-                                        }
-                                        Spacer(modifier = Modifier.height(2.dp))
-                                        Text("Post & Delete Jobs, Manage Ads & Applicants", fontSize = 11.sp, color = Color.White.copy(alpha = 0.85f))
-                                    }
-                                    Icon(Icons.Default.ArrowForward, "Open", tint = Color.White, modifier = Modifier.size(20.dp))
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
 
                         // Subscription & Billing Card
                         Card(
