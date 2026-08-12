@@ -52,14 +52,13 @@ jobs:
           fi
 
       - name: Build Debug APK
+        env:
+          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8
         run: |
-          # GitHub runners have more memory than the development computer. Override
-          # the local low-memory defaults so D8 can merge the app's dependencies.
-          GRADLE_MEMORY="-Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8"
           if [ -f "./gradlew" ]; then
-            ./gradlew $GRADLE_MEMORY --max-workers=2 assembleDebug --stacktrace
+            ./gradlew --max-workers=2 assembleDebug --stacktrace
           else
-            gradle $GRADLE_MEMORY --max-workers=2 assembleDebug --stacktrace
+            gradle --max-workers=2 assembleDebug --stacktrace
           fi
 
       - name: Upload Debug APK Artifact
